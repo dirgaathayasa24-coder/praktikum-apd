@@ -1,0 +1,125 @@
+dataAkun = [["dirga", "115"]]
+dataUang = [["Rupiah", "Lemah", 2020]]
+
+while True:
+    print("""
+--------------------------------
+- 1. Register                  -
+- 2. Login                     -
+- 3. KELUAR                    -
+--------------------------------
+""")
+    inputMenuUtama = input("Pilih (1-3): ")
+
+    if inputMenuUtama == "1":
+        print("=== REGISTRASI ===")
+        registUsername = input("Input username : ")
+        registPassword = input("Input password : ")
+
+        # Cek agar username tidak sama
+        sudah_ada = False
+        for akun in dataAkun:
+            if registUsername == akun[0]:
+                sudah_ada = True
+                break
+
+        if sudah_ada:
+            print("Username sudah terdaftar!")
+        else:
+            dataAkun.append([registUsername, registPassword])
+            print("Berhasil register!")
+
+    elif inputMenuUtama == "2":
+        print("=== LOGIN ===")
+        inputUsername = input("Username anda : ")
+        inputPassword = input("Password anda : ")
+
+        login_berhasil = False
+        for usernameInData, passwordInData in dataAkun:
+            if inputUsername == usernameInData and inputPassword == passwordInData:
+                login_berhasil = True
+                break
+
+        if login_berhasil:
+            print("\nBerhasil Login!")
+            while True:
+                print("""
+=== KEUANGAN DUNIA ===
+---------------------
+1. TAMBAH DATA UANG
+2. TAMPILKAN DATA UANG
+3. UBAH DATA UANG
+4. HAPUS DATA UANG
+5. LOGOUT
+=====================
+""")
+                pilih = input("PILIH: ")
+
+                if pilih == "1":
+                    print("== TAMBAH DATA ==")
+                    nama_uang = input("Nama Uang: ")
+                    kekuatan_uang = input("Kekuatan Uang (kuat/sedang/lemah): ")
+                    tahun_rilis = input("Tahun Rilis: ")
+
+                    dataUang.append([nama_uang, kekuatan_uang, tahun_rilis])
+                    print(f"Data uang '{nama_uang}' berhasil ditambahkan!")
+
+                elif pilih == "2":
+                    print("== DATABASE ==")
+                    if not dataUang:
+                        print("Belum ada data uang.")
+                    else:
+                        for i, (nama_uang, kekuatan, tahun_rilis) in enumerate(dataUang, start=1):
+                            print(f"""
+_____________________________
+| Data uang ke-{i}
+| Nama Uang     : {nama_uang}
+| Kekuatan Uang : {kekuatan}
+| Tahun Rilis   : {tahun_rilis}
+-----------------------------""")
+
+                elif pilih == "3":
+                    print("== UPDATE DATA UANG ==")
+                    for i, (nama_uang, kekuatan, tahun_rilis) in enumerate(dataUang, start=1):
+                        print(f"{i}. {nama_uang}")
+
+                    pilihUang = int(input("Pilih nomor data yang ingin diupdate: ")) - 1
+
+                    if 0 <= pilihUang < len(dataUang):
+                        nama_baru = input("Masukkan nama uang baru: ")
+                        kekuatan_baru = input("Masukkan kekuatan uang baru: ")
+                        tahun_baru = input("Masukkan tahun rilis baru: ")
+
+                        dataUang[pilihUang] = [nama_baru, kekuatan_baru, tahun_baru]
+                        print("Data berhasil diupdate!")
+                    else:
+                        print("Nomor data tidak valid!")
+
+                elif pilih == "4":
+                    print("== HAPUS DATA ==")
+                    for i, (nama_uang, kekuatan, tahun_rilis) in enumerate(dataUang, start=1):
+                        print(f"{i}. {nama_uang}")
+
+                    inputHapus = int(input("Pilih nomor data yang ingin dihapus: ")) - 1
+
+                    if 0 <= inputHapus < len(dataUang):
+                        hapus = dataUang.pop(inputHapus)
+                        print(f"Data '{hapus[0]}' berhasil dihapus.")
+                    else:
+                        print("Nomor data tidak valid!")
+
+                elif pilih == "5":
+                    print("Logout...")
+                    break
+
+                else:
+                    print("Input salah! hanya bisa (1-5)")
+        else:
+            print("Username atau password salah!")
+
+    elif inputMenuUtama == "3":
+        print("Program Berhenti.")
+        break
+
+    else:
+        print("Input salah! hanya bisa (1-3)")
